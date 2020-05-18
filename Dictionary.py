@@ -1,32 +1,28 @@
 "Write Polish-English dictionary. User should be able to add words pairs (public void add(String pol, String eng)"
 
-
 class PolEng:
     def __init__(self):
-        self.N = 1
-        self.pol = [0] * self.N
-        self.eng = [0] * self.N
+        self.N = 2
+        self.dit = [0] * self.N
+
 
     def add(self, pol, eng):
-        self.N = self.N + 1
-        eng_new = [0] * (self.N + 1)
-        pol_new = [0] * (self.N + 1)
+        self.N = self.N + 2
+        dit_new = [0] * (self.N + 2)
         i = 0
-        for item in self.pol:
-            pol_new[i] = self.pol[i]
-            eng_new[i] = self.eng[i]
-            i = i +1
-        pol_new[self.N] = pol
-        eng_new[self.N] = eng
-        self.pol = pol_new
-        self.eng = eng_new
+        for item in self.dit:
+            dit_new[i] = self.dit[i]
+            i = i + 1
+        dit_new[self.N] = pol
+        dit_new[self.N-1] = eng
+        self.dit = dit_new
 
 
     def get(self, pol):
         i = 0
-        for item in self.pol:
+        for item in self.dit:
             if item == pol:
-                print(self.eng[i])
+                print(self.dit[i-1])
             i = i + 1
 
 
