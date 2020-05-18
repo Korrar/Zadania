@@ -1,35 +1,48 @@
 "Write Polish-English dictionary. User should be able to add words pairs (public void add(String pol, String eng)"
 
+
+
+
 class PolEng:
     def __init__(self):
-        self.N = 2
-        self.dit = [0] * self.N
+        self.N = 10
+        self.dit = [None] * self.N
 
+    def getindex(self, key):
+        index = 0
+        for char in str(key):
+            index += ord(char)
+        return index % self.N
 
     def add(self, pol, eng):
-        self.N = self.N + 2
-        dit_new = [0] * (self.N + 2)
-        i = 0
-        for item in self.dit:
-            dit_new[i] = self.dit[i]
-            i = i + 1
-        dit_new[self.N] = pol
-        dit_new[self.N-1] = eng
-        self.dit = dit_new
+        index = self.getindex(pol)
+        value = [pol, eng]
 
+        if self.dit[index] is None:
+            self.dit[index] = list([value])
+            return True
+        else:
+            for tupl in self.dit[index]:
+                if tupl[0] == pol:
+                    tupl[1] = eng
+                    return True
+            self.dit[index] = value
+            return True
 
     def get(self, pol):
-        i = 0
-        for item in self.dit:
-            if item == pol:
-                print(self.dit[i-1])
-            i = i + 1
+        index = self.getindex(pol)
+
+        if self.dit[index] is not None:
+            for tupl in self.dit[index]:
+                if tupl[0] == pol:
+                    return tupl[1]
+        return None
 
 
 pol = PolEng()
 
 pol.add('ksiazka', 'book')
 pol.add('samochod', 'car')
-pol.get('ksiazka')
-pol.get('samochod')
+print(pol.get('ksiazka'))
+print(pol.get('samochod'))
 
