@@ -19,7 +19,8 @@ class PolEng:
 
 pol = PolEng()
 
-pol.add('ziom' , 'kot')
-pol.get('ziom')
-
+pol.add('ksiazka', 'book')
+pol.add('samochod', 'car')
+pol.get('ksiazka')
+pol.get('samochod')
 
