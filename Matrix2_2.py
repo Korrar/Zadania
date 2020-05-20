@@ -9,11 +9,13 @@ class Square:
 
     def load(self):
         i = 0
-
         with open('matrix.txt', "r") as file:
             for line in file:
+                if i == 0:
+                    leng_of_line = len(line) - 1
+                    self.lis = [None] * int(len(line)-1)
                 j = 0
-                li = [None] * self.N
+                li = [None] * leng_of_line
                 for let in line:
                     if let == "\n":
                         continue
