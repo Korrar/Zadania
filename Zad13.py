@@ -43,7 +43,7 @@ class Linklist:
 
     def remove(self):
         if self.size == 0:
-            raise Exception('Empty')
+            return None
         else:
             save = self.head
             self.head = self.head.next
@@ -68,7 +68,7 @@ class Square:
     def __init__(self):
         self.rows = 0
         self.columns = 0
-        self.lis = [None]
+        self.lis = []
         self.start_row = 0
         self.start_col = 0
         self.rq = QueQue()
@@ -104,18 +104,19 @@ class Square:
                     j = j + 1
                 self.lis[i] = li
                 i = i + 1
-        self.visited = [[None] * self.rows] * self.columns
+            self.visited = [[0 for x in range(self.rows)] for y in range(self.columns)]
 
 
     def check_near(self, row, col):
         for i in range(4):
             row2 = row + self.d_row[i]
             col2 = col + self.d_col[i]
+
             if row2 < 0 or col2 < 0:
                 continue
             if row2 >= self.rows or col2 >= self.columns:
                 continue
-            if self.visited[row2][col2] is True:
+            if self.visited[row2][col2]:
                 continue
             if self.lis[row2][col2] == '1':
                 continue
@@ -128,10 +129,12 @@ class Square:
         self.rq.enque(self.start_row)
         self.cq.enque(self.start_col)
         self.visited[self.start_row][self.start_col] = True
+        print(self.visited)
 
-        while self.rq.size() > 0:
+        while self.cq.size() > 0:
             row = self.rq.deque()
             col = self.cq.deque()
+
             if self.lis[row][col] == '2':
                 self.end = True
                 break
@@ -141,7 +144,6 @@ class Square:
                 self.node_left = self.node_next
                 self.node_next = 0
                 self.steps = self.steps + 1
-
         if self.end:
             return self.steps
         return False
