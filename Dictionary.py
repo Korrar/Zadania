@@ -1,48 +1,69 @@
-"Write Polish-English dictionary. User should be able to add words pairs (public void add(String pol, String eng)"
-
-
-
-
-class PolEng:
+class LinkedList:
     def __init__(self):
-        self.N = 10
-        self.dit = [None] * self.N
+        self.head = None
+        self.tail = None
+        self.size = 0
 
-    def getindex(self, key):
-        index = 0
-        for char in str(key):
-            index += ord(char)
-        return index % self.N
+    def __getitem__(self, item):
+        i = 0
+        if self.head == self.tail:
+            return self.head
+        trav = self.head
+        while trav != self.tail:
+            if i == item:
+                return trav.data
+            trav = trav.next
+            i = i + 1
+        if trav == self.tail:
+            return self.tail.data
 
-    def add(self, pol, eng):
-        index = self.getindex(pol)
-        value = [pol, eng]
+    class Node:
+        def __init__(self, prev, next, data):
+            self.prev = prev
+            self.next = next
+            self.data = data
 
-        if self.dit[index] is None:
-            self.dit[index] = list([value])
+    def is_empty(self):
+        if self.size == 0:
             return True
+        return False
+
+    def append(self, element):
+        if self.is_empty():
+            self.head = self.tail = self.Node(None, None, element)
         else:
-            for tupl in self.dit[index]:
-                if tupl[0] == pol:
-                    tupl[1] = eng
-                    return True
-            self.dit[index] = value
-            return True
-
-    def get(self, pol):
-        index = self.getindex(pol)
-
-        if self.dit[index] is not None:
-            for tupl in self.dit[index]:
-                if tupl[0] == pol:
-                    return tupl[1]
-        return None
+            self.tail.next = self.Node(self.tail, None, element)
+            self.tail = self.tail.next
+        self.size = self.size +1
 
 
-pol = PolEng()
 
-pol.add('ksiazka', 'book')
-pol.add('samochod', 'car')
-print(pol.get('ksiazka'))
-print(pol.get('samochod'))
+
+class Tup:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+        self.hash = hash(key)
+
+class HashMap:
+    def __init__(self):
+        self.default_size = 3
+        self.table = LinkedList()
+
+    def add(self, key, value):
+        entry = Tup(key, value)
+        index = entry.hash
+        return self.insert(entry, index)
+
+    def insert(self, entry, index):
+        bucket = self.table[index]
+
+
+
+
+do = LinkedList()
+do.append('adsdasdad')
+do.append('ad33sdasdad')
+print(do[1])
+
 
