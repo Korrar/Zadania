@@ -24,8 +24,13 @@ class Square:
                 self.lis[i] = li
                 i = i + 1
 
+    def go(self):
+        pass
+
+
+
 
 s = Square()
 s.load()
-print(s.lis)
+print(s.lis[0][0])
 
