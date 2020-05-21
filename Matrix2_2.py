@@ -12,15 +12,10 @@ def compare(bigger, smaller):
 
             if (i + columns_last) >= len(row2):
                 continue
-            if j == 2:
-                if i == 1:
-                    print(bigger.lis[rows_last][i] ,smaller.lis[rows_last][0])
-                    print(bigger.lis[rows_last][i + columns_last] ,smaller.lis[rows_last][columns_last])
-                    print(columns_last)
             if row2[i] == smaller.lis[0][0] \
                     and row2[i + columns_last] == smaller.lis[0][columns_last]\
-                    and bigger.lis[rows_last][i] == smaller.lis[rows_last][0]\
-                    and bigger.lis[rows_last][i + columns_last] == smaller.lis[rows_last][columns_last]:
+                    and bigger.lis[rows_last+j][i] == smaller.lis[rows_last][0]\
+                    and bigger.lis[rows_last+j][i + columns_last] == smaller.lis[rows_last][columns_last]:
                 x = 0
                 while True:
                     if x > rows_last:
