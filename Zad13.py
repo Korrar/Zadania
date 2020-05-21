@@ -106,7 +106,6 @@ class Square:
                 i = i + 1
             self.visited = [[0 for x in range(self.rows)] for y in range(self.columns)]
 
-
     def check_near(self, row, col):
         for i in range(4):
             row2 = row + self.d_row[i]
