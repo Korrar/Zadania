@@ -14,8 +14,7 @@ class LinkedList:
                 return trav.data
             trav = trav.next
             i = i + 1
-        if trav == self.tail:
-            return self.tail.data
+
 
     class Node:
         def __init__(self, prev, next, data):
@@ -67,11 +66,10 @@ class HashMap:
         self.table[index].append(entry)
 
     def get(self, key):
-        key_str = key
         index = hashi(key)
         i = 0
-        for key in self.table[index]:
-            if self.table[index][i].key == key_str:
+        while self.table[index]:
+            if self.table[index][i].key == key:
                 print(self.table[index][i].value)
                 break
             i = i+1
@@ -80,9 +78,10 @@ class HashMap:
 
 
 do = HashMap()
-do.add('a','hello')
-do.add('v','he222o')
-do.get('v')
-do.get('a')
+do.add('a', 'hello')
+do.add('v', 'he222o')
+do.add('z', 'he22eo')
+
+do.get('d')
 
 
