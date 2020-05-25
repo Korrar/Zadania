@@ -9,6 +9,8 @@ class Linklist:
 
     def __getitem__(self, item):
         i = 0
+        if self.size == 0:
+            return None
         if self.head == self.tail:
             return self.head.data
         trav = self.head
@@ -40,7 +42,6 @@ class Linklist:
         self.size = self.size + 1
 
 
-
 class Graph:
     def __init__(self, filename):
         self.filename = filename
@@ -55,43 +56,50 @@ class Graph:
 
     def load(self):
         num = 0
-        i = 1
+        i = 0
         with open('{}'.format(self.filename), "r") as file:
             for line in file:
+                word = ''
                 for let in line:
-                    if let == "," or let == "\n":
+                    if let == "\n":
+                        break
+                    if let == ",":
+                        if int(num) < int(word):
+                            num = int(word)
+                        word = ''
                         continue
-                    num = let
-            number_of_nodes = int(num) + 1
+                    word = word + let
+                if int(num) < int(word):
+                    num = int(word)
+                i = i + 1
+            number_of_nodes = num + 1
 
         self.number_of_nodes = number_of_nodes
         self.visited = [False] * number_of_nodes
-        self.graph = [None] * (number_of_nodes * 2)
-        self.graph2 = [None] * (number_of_nodes * 2)
+        self.graph = [None] * number_of_nodes
+        self.graph2 = [None] * number_of_nodes
         self.components = [None] * number_of_nodes
-        self.graph_list = [Linklist() for k in range(number_of_nodes *2)]
-
+        self.graph_list = [Linklist() for k in range(number_of_nodes)]
+        i = 0
         with open('{}'.format(self.filename), "r") as file:
             for line in file:
-                j = 0
+                word = ''
                 for let in line:
-                    if let == "," or let == "\n":
+                    if let == "\n":
+                        break
+                    if let == ",":
+                        self.graph[i] = int(word)
+                        word = ''
                         continue
-                    if j == 0:
-                        self.graph[i] = let
-                        self.graph2[i + 1] = let
-                    if j == 1:
-                        self.graph[i + 1] = let
-                        self.graph2[i] = let
-                    j = j+1
-                i = i + 2
+                    word = word + let
+                self.graph2[i] = int(word)
+                i = i + 1
 
-        for i in range(self.number_of_nodes*2):
+        for i in range(self.number_of_nodes):
             u = self.graph[i]
             v = self.graph2[i]
-            if u and v:
-                self.graph_list[int(u)].append(int(v))
-
+            if u is not None and v is not None :
+                self.graph_list[u].append(v)
 
     def find_comp(self):
         for i in range(self.number_of_nodes):
