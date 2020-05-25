@@ -54,9 +54,15 @@ class Graph:
         self.components = []
 
     def load(self):
+        num = 0
         i = 1
         with open('{}'.format(self.filename), "r") as file:
-            number_of_nodes = 7
+            for line in file:
+                for let in line:
+                    if let == "," or let == "\n":
+                        continue
+                    num = let
+            number_of_nodes = int(num) + 1
 
         self.number_of_nodes = 7
         self.visited = [False] * number_of_nodes
