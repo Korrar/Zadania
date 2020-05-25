@@ -9,7 +9,6 @@ def compare(bigger, smaller):
     for row2 in bigger.lis:
         i = 0
         for col in row2:
-
             if (i + columns_last) >= len(row2):
                 continue
             if row2[i] == smaller.lis[0][0] \
@@ -25,16 +24,12 @@ def compare(bigger, smaller):
                         if y > columns_last:
                             break
                         if not bigger.lis[j + x][i + y] == smaller.lis[x][y]:
-                            return False
+                            break
                         y = y + 1
                     x = x + 1
             i = i + 1
         j = j + 1
     return False
-
-
-
-
 
 
 class Square:
@@ -65,7 +60,6 @@ class Square:
                 self.lis[i] = li
                 i = i + 1
             self.number_of_rows = i
-
 
 
 
