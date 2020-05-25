@@ -64,7 +64,7 @@ class Graph:
                     num = let
             number_of_nodes = int(num) + 1
 
-        self.number_of_nodes = 7
+        self.number_of_nodes = number_of_nodes
         self.visited = [False] * number_of_nodes
         self.graph = [None] * (number_of_nodes * 2)
         self.graph2 = [None] * (number_of_nodes * 2)
