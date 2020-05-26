@@ -45,6 +45,7 @@ class Linklist:
         return self.size == 0
 
     def append(self, data):
+
         if self.size == 0:
             self.head = self.tail = self.Node(None, None, data)
         else:
@@ -77,6 +78,14 @@ class PiorQueQue:
         if self.empty():
             return None
         self.size = self.size - 1
+        removed = self.list[0]
+        self.swap(0, self.size)
+        self.list[self.size] = None
+        self.sink(0)
+        self.swim(0)
+        return removed
+
+
 
     def swap(self, i, j):
         node1 = self.list[i]
@@ -98,6 +107,16 @@ class PiorQueQue:
             k = parent
             parent = (k-1)/2
 
+    def sink(self, k):
+        while True:
+            left = 2 * k + 1
+            right = 2 * k + 2
+            smallest = left
+            if right < self.size or self.less(k,smallest):
+                break
+            self.swap(smallest, k)
+            k = smallest
+
 
 class Graph:
     def __init__(self, filename):
@@ -107,7 +126,8 @@ class Graph:
         self.graph_list = []
         self.number_of_nodes = 0
         self.visited = []
-        self.starting_node = 0
+        self.distance = []
+        self.starting_node = 1
         self.finish_node = 0
 
     def load(self):
@@ -135,6 +155,7 @@ class Graph:
         self.graph = [None] * number_of_nodes
         self.graph2 = [None] * number_of_nodes
         self.visited = [False] * number_of_nodes
+        self.distance = [9999999] * number_of_nodes
 
         self.graph_list = [Linklist() for k in range(number_of_nodes)]
         i = 0
@@ -163,12 +184,28 @@ class Graph:
             if u is not None and v is not None:
                 self.graph_list[u].append(v)
 
-
     def shortest_path(self):
-        pass
+        self.distance[self.starting_node] = self.starting_node
+        pq = PiorQueQue()
+        pq.add((self.starting_node, 0))
+        while pq.size != 0:
+            index, min = pq.poll()
+            self.visited[index] = True
+            for edge in self.graph_list[index]:
+                if self.visited[edge[0]]:
+                    continue
+                new_dist = self.distance[index] + edge[1]
+                if new_dist < self.distance[edge[0]]:
+                    self.distance[edge[0]] = new_dist
+                    pq.add((edge[0], new_dist))
+        return self.distance
+
+
+
+
 
 
 g = Graph('gr')
 g.load()
-
+g.shortest_path()
 
