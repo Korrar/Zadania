@@ -22,7 +22,7 @@ class Linklist:
     def __setitem__(self, key, value):
         i = 0
         if self.size == 0:
-            return Exception('no no no no')
+            raise Exception('empty list')
         trav = self.head
         while trav != self.tail:
             if i == key:
@@ -30,7 +30,6 @@ class Linklist:
                 break
             trav = trav.next
             i = i + 1
-        return Exception('no no no no')
 
     class Node:
         def __init__(self, next, prev, data):
@@ -57,17 +56,13 @@ class Linklist:
 class PiorQueQue:
     def __init__(self):
         self.size = 0
-        self.capacity = 0
         self.list = Linklist()
 
     def add(self, element):
         if element is None:
-            raise Exception
-        if self.size < self.capacity:
-            pass
+            raise Exception('no null elements')
         else:
             self.list.append(element)
-            self.capacity = self.capacity + 1
         self.swim(self.size)
         self.size = self.size + 1
 
@@ -84,8 +79,6 @@ class PiorQueQue:
         self.sink(0)
         self.swim(0)
         return removed
-
-
 
     def swap(self, i, j):
         node1 = self.list[i]
@@ -112,7 +105,9 @@ class PiorQueQue:
             left = 2 * k + 1
             right = 2 * k + 2
             smallest = left
-            if right < self.size or self.less(k,smallest):
+            if right < self.size and self.less(right, left):
+                smallest = right
+            if left >= self.size or self.less(k, smallest):
                 break
             self.swap(smallest, k)
             k = smallest
@@ -127,7 +122,7 @@ class Graph:
         self.number_of_nodes = 0
         self.visited = []
         self.distance = []
-        self.starting_node = 1
+        self.starting_node = 0
         self.finish_node = 0
 
     def load(self):
@@ -155,7 +150,8 @@ class Graph:
         self.graph = [None] * number_of_nodes
         self.graph2 = [None] * number_of_nodes
         self.visited = [False] * number_of_nodes
-        self.distance = [9999999] * number_of_nodes
+        infinity = 9999999
+        self.distance = [infinity] * number_of_nodes
 
         self.graph_list = [Linklist() for k in range(number_of_nodes)]
         i = 0
@@ -175,7 +171,7 @@ class Graph:
                         j = j + 1
                         continue
                     word = word + let
-                self.graph2[i] = (self.graph2[i], int(word))
+                self.graph2[i] = [self.graph2[i], int(word)]
                 i = i + 1
 
         for i in range(self.number_of_nodes):
@@ -185,27 +181,30 @@ class Graph:
                 self.graph_list[u].append(v)
 
     def shortest_path(self):
-        self.distance[self.starting_node] = self.starting_node
+        self.distance[self.starting_node] = 0
         pq = PiorQueQue()
         pq.add((self.starting_node, 0))
         while pq.size != 0:
             index, min = pq.poll()
             self.visited[index] = True
-            for edge in self.graph_list[index]:
-                if self.visited[edge[0]]:
+            for edge in self.graph_list:
+                try:
+                    edge[0][0]
+                except TypeError:
+                    break
+                if edge is None:
+                    break
+                if self.visited[edge[0][0]]:
                     continue
-                new_dist = self.distance[index] + edge[1]
-                if new_dist < self.distance[edge[0]]:
-                    self.distance[edge[0]] = new_dist
-                    pq.add((edge[0], new_dist))
+                new_dist = self.distance[index] + edge[0][1]
+                if new_dist < self.distance[edge[0][0]]:
+                    self.distance[edge[0][0]] = new_dist
+                    pq.add((edge[0][0], new_dist))
         return self.distance
-
-
-
 
 
 
 g = Graph('gr')
 g.load()
-g.shortest_path()
+print(g.shortest_path())
 

@@ -101,6 +101,7 @@ class Graph:
             if u is not None and v is not None :
                 self.graph_list[u].append(v)
 
+
     def find_comp(self):
         for i in range(self.number_of_nodes):
             if not self.visited[i]:
@@ -125,5 +126,5 @@ class Graph:
 
 g = Graph('gr')
 g.load()
-print(g.find_comp())
+
 
