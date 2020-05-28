@@ -115,15 +115,14 @@ class PiorQueQue:
 
 class Graph:
     def __init__(self, filename):
+        self.previous = []
         self.filename = filename
         self.graph = []
         self.graph2 = []
         self.graph_list = []
         self.number_of_nodes = 0
-        self.visited = []
-        self.distance = []
         self.starting_node = 0
-        self.finish_node = 0
+        self.finish_node = 3
 
     def load(self):
         num = 0
@@ -150,8 +149,9 @@ class Graph:
         self.graph = [None] * number_of_nodes
         self.graph2 = [None] * number_of_nodes
         self.visited = [False] * number_of_nodes
-        infinity = 9999999
-        self.distance = [infinity] * number_of_nodes
+        self.previous = [None] * number_of_nodes
+        self.infinity = 9999999
+        self.distance = [self.infinity] * number_of_nodes
 
         self.graph_list = [Linklist() for k in range(number_of_nodes)]
         i = 0
@@ -180,31 +180,51 @@ class Graph:
             if u is not None and v is not None:
                 self.graph_list[u].append(v)
 
-    def shortest_path(self):
-        self.distance[self.starting_node] = 0
-        pq = PiorQueQue()
-        pq.add((self.starting_node, 0))
-        while pq.size != 0:
-            index, min = pq.poll()
-            self.visited[index] = True
-            for edge in self.graph_list:
-                try:
-                    edge[0][0]
-                except TypeError:
-                    break
-                if edge is None:
-                    break
-                if self.visited[edge[0][0]]:
-                    continue
-                new_dist = self.distance[index] + edge[0][1]
-                if new_dist < self.distance[edge[0][0]]:
-                    self.distance[edge[0][0]] = new_dist
-                    pq.add((edge[0][0], new_dist))
-        return self.distance
 
+def shortest_path(graph, number, start, ):
+    visited = [False] * number
+    infinity = 999999999
+    distance = [infinity] * number
+    previous = [None] * number
+    distance[start] = 0
+    distance[start] = 0
+    pq = PiorQueQue()
+    pq.add((start, 0))
+    while pq.size != 0:
+        index, min = pq.poll()
+        visited[index] = True
+        for edge in graph:
+            try:
+                edge[0][0]
+            except TypeError:
+                break
+            if edge is None:
+                break
+            if visited[edge[0][0]]:
+                continue
+            new_dist = distance[index] + edge[0][1]
+            if new_dist < distance[edge[0][0]]:
+                previous[edge[0][0]] = index
+                distance[edge[0][0]] = new_dist
+                pq.add((edge[0][0], new_dist))
+    return (distance, previous)
+
+
+def shortfurther(graph, number, start, end):
+    distance, previous = shortest_path(graph, number, start)
+    infinity = 999999999
+    path = []
+    if distance == infinity:
+        return path
+    at = end
+    while at is not None:
+        path.append(at)
+        at = previous[at]
+    return path
 
 
 g = Graph('gr')
 g.load()
-print(g.shortest_path())
+
+print(shortfurther(g.graph_list, g.number_of_nodes, g.starting_node, g.finish_node))
 
