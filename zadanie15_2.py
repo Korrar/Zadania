@@ -145,7 +145,7 @@ class Graph:
             for line in file:
 
                 i = i + 1
-            number_of_edges = i - 1
+            number_of_edges = i
         self.number_of_edges = number_of_edges
         graph = [None] * self.number_of_edges
         graph2 = [None] * 3
@@ -171,6 +171,7 @@ class Graph:
                 graph2[j] = int(word)
                 graph[i] = [graph2[0], graph2[1], graph2[2]]
                 i = i + 1
+        print(number_of_edges)
         return graph
 
 
@@ -218,8 +219,8 @@ adj_list = [Linklist() for k in range(gr.number_of_nodes +1)]
 
 
 for edge in graph:
-
-    adj_list[edge[0]].append([edge[1], edge[2]])
+    if edge:
+        adj_list[edge[0]].append([edge[1], edge[2]])
 
 
 print(point_to_point(adj_list, gr.number_of_nodes, start, end))
