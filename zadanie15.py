@@ -6,17 +6,16 @@ class Linklist:
         self.tail = None
 
     def __getitem__(self, item):
-        i = 0
+
         if self.size == 0:
             return None
         if self.head == self.tail:
             return self.head.data
         trav = self.head
-        while trav != self.tail:
+        for i in range(0, int(item)):
             if i == item:
                 return trav.data
             trav = trav.next
-            i = i + 1
         return trav.data
 
     def __setitem__(self, key, value):
@@ -31,11 +30,24 @@ class Linklist:
             trav = trav.next
             i = i + 1
 
+    def __repr__(self):
+        strin = ''
+        trav = self.head
+        while trav != self.tail:
+            print(trav)
+            strin = strin + str(trav)
+            trav = trav.next
+        strin = strin + str(self.tail)
+        return strin
+
     class Node:
         def __init__(self, next, prev, data):
             self.next = next
             self.prev = prev
             self.data = data
+
+        def __repr__(self):
+            return str(self.data)
 
     def size_o(self):
         return self.size
@@ -44,7 +56,6 @@ class Linklist:
         return self.size == 0
 
     def append(self, data):
-
         if self.size == 0:
             self.head = self.tail = self.Node(None, None, data)
         else:
@@ -121,8 +132,8 @@ class Graph:
         self.graph2 = []
         self.graph_list = []
         self.number_of_nodes = 0
-        self.starting_node = 0
-        self.finish_node = 3
+        self.starting_node = 3
+        self.finish_node = 4
 
     def load(self):
         num = 0
@@ -187,26 +198,25 @@ def shortest_path(graph, number, start, ):
     distance = [infinity] * number
     previous = [None] * number
     distance[start] = 0
-    distance[start] = 0
     pq = PiorQueQue()
     pq.add((start, 0))
     while pq.size != 0:
         index, min = pq.poll()
         visited[index] = True
+
         for edge in graph:
-            try:
-                edge[0][0]
-            except TypeError:
-                break
-            if edge is None:
-                break
-            if visited[edge[0][0]]:
-                continue
-            new_dist = distance[index] + edge[0][1]
-            if new_dist < distance[edge[0][0]]:
-                previous[edge[0][0]] = index
-                distance[edge[0][0]] = new_dist
-                pq.add((edge[0][0], new_dist))
+            for i in range(edge.size_o()):
+                try:
+                    edge[i][0]
+                except TypeError:
+                    break
+                if visited[edge[i][0]]:
+                    continue
+                new_dist = distance[index] + edge[i][1]
+                if new_dist < distance[edge[i][0]]:
+                    previous[edge[i][0]] = index
+                    distance[edge[i][0]] = new_dist
+                    pq.add((edge[i][0], new_dist))
     return (distance, previous)
 
 
