@@ -64,6 +64,7 @@ class Linklist:
             self.tail = self.tail.next
         self.size = self.size + 1
 
+
 class PiorityQue:
     def __init__(self, number):
         self.table = [None] * (number + 1)
@@ -77,7 +78,6 @@ class PiorityQue:
         self.table[self.size] = item
         self.size = self.size + 1
         self.heap_up(self.size - 1)
-
 
     def compare(self, index, parent):
         node1 = self.table[index]
@@ -107,7 +107,7 @@ class PiorityQue:
         while True:
             left, right = self.get_child(index)
             small = left
-            if right < self.size and self.compare(right,left):
+            if right < self.size and self.compare(right, left):
                 small = right
             if left >= self.size or self.compare(index, small):
                 break
@@ -171,7 +171,6 @@ class Graph:
                 graph2[j] = int(word)
                 graph[i] = [graph2[0], graph2[1], graph2[2]]
                 i = i + 1
-
         return graph
 
 
@@ -197,8 +196,9 @@ def shortest_path(start, graph , number_of_nodes):
                 pq.insert([edge[0], new_distance])
     return distance, previous
 
+
 def point_to_point(graph, number, start, end):
-    distance, previous = shortest_path(start, graph,number )
+    distance, previous = shortest_path(start, graph, number)
     infinity = 99999999
     path = []
     if distance == infinity:
@@ -208,17 +208,12 @@ def point_to_point(graph, number, start, end):
         path.append(at)
         at = previous[at]
     return path
+
 start = 0
 end = 4
 
 gr = Graph('gr')
 graph = gr.load()
-"""
-adj_matrix = [[0 for x in range(gr.number_of_nodes+1)] for y in range(gr.number_of_nodes+1)]
-for edge in graph:
-    print(edge)
-    adj_matrix[edge[0]][edge[1]] = edge[2]
-"""
 adj_list = [Linklist() for k in range(gr.number_of_nodes +1)]
 
 
